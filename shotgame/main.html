@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Jomhuria&display=swap" rel="stylesheet">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            height: 100%;
+            background: rgb(231, 157, 65);
+        }
+
+        #game {
+            width: 100%;
+            height: 550px;
+            background: rgb(245, 233, 216);
+            background-image: url(./images/bg.png);
+            background-size: cover;
+            transform: translateY(15%);
+            overflow: hidden;
+            position: relative;
+            cursor: url(./images/cursor.png)50 50, auto;
+        }
+
+        #game img {
+            width: 185px;
+            height: 150px;
+            position: absolute;
+        }
+
+        #game.img_2 {
+            width: 160px;
+            height: 129px;
+            position: absolute;
+        }
+
+        #gamelist {
+            position: relative;
+            width: 100%;
+            height: 120px;
+            /* background-color: burlywood; */
+            transform: translateY(100%);
+        }
+
+        #start_btn img {
+            position: absolute;
+            width: 148px;
+            height: 120px;
+            left: 20%;
+        }
+
+        #start_btn img:hover {
+            filter: hue-rotate(180deg);
+            cursor: pointer;
+        }
+
+        #scoreicon img {
+            position: absolute;
+            width: 120px;
+            height: 58px;
+            top: 25%;
+            left: 43%;
+        }
+
+        #text-score {
+            position: absolute;
+            font-size: 65px;
+            font-family: 'Jomhuria', cursive;
+            color: black;
+            top: 28%;
+            left: 53%;
+        }
+
+        #timeicon img {
+            position: absolute;
+            width: 120px;
+            height: 58px;
+            top: 25%;
+            left: 60%;
+        }
+
+        #text-time {
+            position: absolute;
+            top: 28%;
+            left: 70%;
+            font-size: 65px;
+            font-family: 'Jomhuria', cursive;
+            color: black;
+        }
+
+        .ani {
+            user-select: 'none';
+            -webkit-user-drag: 'none';
+            pointer-events: 'none'
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <div id="game"></div>
+        <div id="gamelist">
+            <div id="start_btn">
+                <img class="animate__animated animate__pulse animate__infinite" src="./images/startbtn.png">
+            </div>
+            <div id="scoreicon">
+                <img src="./images/score.png">
+                <span id="text-score">0</span>
+            </div>
+
+            <div id="timeicon">
+                <img src="./images/time.png">
+                <span id="text-time">0</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <script src="./js/sweetalert2.all.min.js"></script>
+    <script>
+
+        let score = 0
+        let countdown = 25
+        let timer = 0
+
+        const move = (sumo1) => {
+            sumo1.stop().animate({
+                right: Math.round(Math.random() * 75) + '%',
+                top: Math.round(Math.random() * 80) + '%',
+            }, 2000, function () {
+                move(sumo1)
+            })
+        }
+
+        const move2 = (sumo2) => {
+            sumo2.stop().animate({
+                left: Math.round(Math.random() * 80) + '%',
+                top: Math.round(Math.random() * 80) + '%',
+            }, 2500, function () {
+                move2(sumo2)
+            })
+        }
+
+        $('#start_btn').click(function () {
+            $(this).attr('disabled', true)
+
+            score = 0
+            $('#text-score').text(score)
+            countdown = 25
+            $('#text-time').text(countdown)
+
+            // 倒數計時
+            timer = setInterval(() => {
+                countdown--
+                $('#text-time').text(countdown)
+
+
+                let rand = Math.round(Math.random() * 15)
+                if (rand > 5 && $('#game img').length < 15) {
+                    const sumo1 = $(` <img id="su01" src="./images/sumo_01.gif" alt="" style=right:${Math.round(Math.random() * 80)}%;top:${Math.round(Math.random() * 80)}%>`)
+                    $('#game').append(sumo1)
+                    move(sumo1)
+                }
+
+                let rand2 = Math.round(Math.random() * 10)
+                if (rand2 > 5 && $('#game img_2').length < 10) {
+                    const sumo2 = $(` <img id="su02" src="./images/sumo_02.gif" alt="" style=left:${Math.round(Math.random() * 80)}%;top:${Math.round(Math.random() * 100)}%>`)
+                    $('#game').append(sumo2)
+                    move2(sumo2)
+                }
+                if (countdown <= 0) {
+                    clearInterval(timer)
+                    Swal.fire({
+                        icon: 'info',
+                        title: '時間到',
+                        text: `你得到 ${score} 分`
+                    })
+
+                    $('#game img').remove()
+                    $('#game img_2').remove()
+                    $(this).attr('disabled', false)
+                }
+            }, 800);
+        })
+
+        $('#game').on('click', '#su01', function () {
+            $(this).stop().attr('src', './images/ra1.gif').animate({ opacity: 0 })
+            $(this).addClass('ani')
+
+            score += 5
+            $('#text-score').text(score)
+        })
+
+        $('#game').on('click', '#su02', function () {
+            $(this).stop().attr('src', './images/ra2.gif').animate({ opacity: 0 })
+            $(this).addClass('ani')
+
+            score += 1
+            $('#text-score').text(score)
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <title>Document</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            height: 100%;
+            background-color: rgb(231, 157, 65);
+        }
+
+        #main {
+            height: 100%;
+            background-image: url(./images/ramen.png);
+            background-repeat: no-repeat;
+            background-position: left;
+            background-size: 60%;
+        }
+
+        #game_bg img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #sumo img {
+            position: absolute;
+            top: 40%;
+            left: 25%;
+        }
+
+        #logo img {
+            position: absolute;
+            top: 42%;
+            left: 45%;
+        }
+
+        #enter_btn {
+            position: absolute;
+            top: 65%;
+            left: 75%;
+        }
+
+        #enter_btn img {
+            width: 90%;
+            height: 90%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <div id="game_bg"><img src="./images/sumugame_bg.png" width="55%"></div>
+        <div id="sumo"><img class="animate__animated animate__bounceInUp" src="images/sumo.gif" width="22%"></div>
+        <div id="logo"><img class="animate__animated animate__jackInTheBox animate__delay-1s" src="./images/logo.png"
+                width="30%"></div>
+        <div id="enter_btn"><a href="main.html" target="_self"><img
+                    class="animate__animated animate__pulse animate__infinite animate__delay-2s"
+                    src="./images/enterbtn.png"></a></div>
+    </div>
+</body>
+
+</html>
